@@ -1,1 +1,13 @@
-<p>header works!</p>
+<header class="header">
+    <div class="header__container">
+        <h1 class="nav__logo">Angular</h1>
+        <label for="menu" class="nav__label">
+            <img src="assets/image/menu.svg" alt="mylogo" class="nav__img">
+        </label>
+        <input type="checkbox" id="menu" class="nav__input">
+        <ul class="nav__menu">
+            <li><a class=nav__item routerLinkActive="bg-blue-200" routerLink="/home">Home</a></li>
+            <li><a class=nav__item routerLinkActive="bg-blue-200" routerLink="/detalles">Detalles</a></li>
+        </ul>
+    </div>
+</header>

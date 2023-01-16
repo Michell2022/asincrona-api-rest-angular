@@ -1,1 +1,21 @@
-<p>home works!</p>
+<div class="mx-12">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Buscar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dato of entrada">
+                <td>{{dato.name}}</td>
+                <td><button (click)="validar(dato.name)">Buscar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<ul>
+    <li>{{entrada | json}}</li>
+</ul>
