@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PokemonesService } from 'src/app/services/pokemones.service';
 
 @Component({
@@ -17,10 +18,12 @@ export class HomeComponent implements OnInit {
   // DECLARO MI VARIABLE BUSCADOR
   buscador = '';
 
-  constructor(private mydata: PokemonesService) { }
+  constructor(private mydata: PokemonesService, private router:Router) { }
 
   ngOnInit(): void {
     this.getPoketodo();
+
+    // this.mydata.getData().subscribe( mydata => this.entrada = mydata);
   }
 
 
@@ -29,14 +32,15 @@ export class HomeComponent implements OnInit {
 
     // CREO UNA ESTRUCTURA DE CONTROL FOR PARA OBTENER SOLO 150 POKEMONES CON SUS RESPECTIVAS INFORMACIONES:
     for (let i = 1; i <= 150; i++) {
-      this.mydata.getPokemones(String(i)).subscribe(
+      this.mydata.getPokemones(Number(i)).subscribe(
         res => {
           pokemonInfo = {
             // OBTENGO LOS DATOS POSICION - IMAGEN - NOMBRE Y EXPERIENCIA PARA EL SIGUIENTE NIVEL
             position: i,
+            id: res.id,
             image: res.sprites.front_default,
             name: res.name,
-            nextExperiencia: res.base_experience
+            experiencia: res.base_experience
 
           }
           // LOS DATOS OBTENIDOS SERAN ASIGNADOS A MI VARIABLE ORIGINALENTRADA CON EL METODO PUSH
@@ -65,4 +69,16 @@ export class HomeComponent implements OnInit {
         dato.name.toLowerCase().indexOf(this.buscador.toLowerCase()) > -1);
     }
   }
+
+
+  // MI FUNCION sendData PASARA LOS DATOS DEL PRIMER POKEMON QUE ESCRIBA EN MI INPUT USANDO EL METODO FILTER 
+  sendData(index:string) {
+    const selectedPokemon = this.entrada.filter(dato =>
+    dato.name.toLowerCase().indexOf(index.toLowerCase()) > -1)[0];
+
+    this.router.navigate(['detalles',selectedPokemon.id]);
+    console.log(selectedPokemon);
+
+  }
+
 }

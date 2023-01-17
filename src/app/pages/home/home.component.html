@@ -1,18 +1,21 @@
 
 <!-- // CREO MI BUSCADOR DE TIPO TEXT -->
-<div class="w-3/4 mx-auto mb-6">
+<div class="w-3/4 mx-auto mb-6 text-center">
     <h1 class="text-center text-4xl my-6">POKEMONES</h1>
-    <input type="text" [(ngModel)]="buscador" (input)="search()" class="border w-full py-2 pl-2 mt-3 rounded">
+    <input type="text" [(ngModel)]="buscador" (input)="search()" class="border w-1/2 py-2 pl-2 mt-3 rounded mr-2">
+    <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="sendData(buscador)">Enviar datos</button>
+    
 </div>
 
 <!-- MUESTRO EN GRILLAS TODOS LOS DATOS QUE SOLICITO COMO POSICION - IMAGEN - NOMBRE - EXPERIENCIA CON UN *gnFor -->
 <div class="w-3/4 mx-auto">
     <div class="grid grid-cols-3 md:grid md:grid-cols-4 gap-4">
         <div *ngFor="let dato of entrada" class="border py-4 rounded">
-            <p class="text-xl font-bold text-center">{{dato.position}}</p> 
+            <!-- <p class="text-xl font-bold text-center">{{dato.position}}</p>  -->
+            <p class="text-xl font-bold text-center">{{dato.id}}</p> 
             <img src="{{dato.image}}" alt="" width="100%">
             <p class="text-center text-2xl">{{dato.name}}</p>
-            <p class="text-center text-orange-400 pt-1">Next level: {{dato.nextExperiencia}} Exp.</p>
+            <p class="text-center text-orange-400 pt-1">Next level: {{dato.experiencia}} Exp.</p>
         </div>
     </div>
 </div>

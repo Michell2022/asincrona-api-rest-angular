@@ -12,8 +12,8 @@ export class PokemonesService {
   constructor(private http:HttpClient) { }
 
   // MI METODO GETPOKEMONES OBTENDRA INFORMACION A TRAVEX DE UNA PETICION HTTP GET
-  getPokemones(index: string) {
-    return this.http.get<any>(`${this.Myurl}/pokemon/${index}`);
+  getPokemones(id: number) {
+    return this.http.get<any>(`${this.Myurl}/pokemon/${id}`);
   }
 
 }
