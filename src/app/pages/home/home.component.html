@@ -1,21 +1,18 @@
-<div class="mx-12">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Buscar</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let dato of entrada">
-                <td>{{dato.name}}</td>
-                <td><button (click)="validar(dato.name)">Buscar</button></td>
-            </tr>
-        </tbody>
-    </table>
+
+<!-- // CREO MI BUSCADOR DE TIPO TEXT -->
+<div class="w-3/4 mx-auto mb-6">
+    <h1 class="text-center text-4xl my-6">POKEMONES</h1>
+    <input type="text" [(ngModel)]="buscador" (input)="search()" class="border w-full py-2 pl-2 mt-3 rounded">
 </div>
 
-
-<ul>
-    <li>{{entrada | json}}</li>
-</ul>
+<!-- MUESTRO EN GRILLAS TODOS LOS DATOS QUE SOLICITO COMO POSICION - IMAGEN - NOMBRE - EXPERIENCIA CON UN *gnFor -->
+<div class="w-3/4 mx-auto">
+    <div class="grid grid-cols-3 md:grid md:grid-cols-4 gap-4">
+        <div *ngFor="let dato of entrada" class="border py-4 rounded">
+            <p class="text-xl font-bold text-center">{{dato.position}}</p> 
+            <img src="{{dato.image}}" alt="" width="100%">
+            <p class="text-center text-2xl">{{dato.name}}</p>
+            <p class="text-center text-orange-400 pt-1">Next level: {{dato.nextExperiencia}} Exp.</p>
+        </div>
+    </div>
+</div>

@@ -1,25 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonesService {
 
-  Myurl = "https://pokeapi.co/api/v2/pokemon/";
+  // MI VARIABLE MYURL CONTENDRA MI ENLACE DE DONDE OBTENDREMOS LOS DATOS
+  Myurl="https://pokeapi.co/api/v2";
 
-  constructor(private http:HttpClient ) { 
-    console.log('Pokedex')
-  }
+  constructor(private http:HttpClient) { }
 
-
-  getData():Observable<string[]>{
-    return this.http.get<string[]>(this.Myurl);
-  }
-
-  getItem(name: "string"): Observable<any> {
-    return this.http.get(`${this.Myurl}/${name}`);
+  // MI METODO GETPOKEMONES OBTENDRA INFORMACION A TRAVEX DE UNA PETICION HTTP GET
+  getPokemones(index: string) {
+    return this.http.get<any>(`${this.Myurl}/pokemon/${index}`);
   }
 
 }
