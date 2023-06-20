@@ -1,21 +1,26 @@
-
-<!-- // CREO MI BUSCADOR DE TIPO TEXT -->
+<div class="Mrpussylicking">
+    <!-- HOME -->
+</div>
 <div class="w-3/4 mx-auto mb-6 text-center">
     <h1 class="text-center text-4xl my-6">POKEMONES</h1>
+  
+    <!-- Input para el buscador -->
     <input type="text" [(ngModel)]="buscador" (input)="search()" class="border w-1/2 py-2 pl-2 mt-3 rounded mr-2">
-    <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="sendData(buscador)">Enviar datos</button>
-    
+  
+    <!-- Botón para enviar los datos -->
+    <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="sendData()">Enviar datos</button>
 </div>
-
-<!-- MUESTRO EN GRILLAS TODOS LOS DATOS QUE SOLICITO COMO POSICION - IMAGEN - NOMBRE - EXPERIENCIA CON UN *gnFor -->
-<div class="w-3/4 mx-auto">
-    <div class="grid grid-cols-3 md:grid md:grid-cols-4 gap-4">
-        <div *ngFor="let dato of entrada" class="border py-4 rounded">
-            <!-- <p class="text-xl font-bold text-center">{{dato.position}}</p>  -->
-            <p class="text-xl font-bold text-center">{{dato.id}}</p> 
-            <img src="{{dato.image}}" alt="" width="100%">
-            <p class="text-center text-2xl">{{dato.name}}</p>
-            <p class="text-center text-orange-400 pt-1">Next level: {{dato.experiencia}} Exp.</p>
+  
+<div class="w-[90%] mx-auto mb-8 max-[1024px]:w-[95%] max-[768px]:w-[100%] overflow-hidden">
+    <!-- Grid para mostrar los Pokémon -->
+    <div class="grid grid-cols-4 gap-4 m-4 max-[1024px]:grid-cols-3 max-[768px]:grid-cols-2">
+        <!-- Iterar sobre los datos de entrada y mostrar cada Pokémon -->
+        <div *ngFor="let dato of entrada" class="text-center cursor-pointer border h-[22rem] py-3 rounded flex flex-col content-between hover:-translate-y-1 duration-300 hover:shadow-[0_0_10px_1px_rgba(0,0,0,0.1)] " (click)="seleccionarPokemon(dato)">
+            <p class="text-xl font-bold "># {{dato.id}}</p>
+            <img class="m-auto w-36 h-36" [src]="dato.image" alt="Imagen de Pokemon" >
+            <p class="text-2xl">{{dato.name}}</p>
+            <p class="text-orange-400 pt-1">Next level: {{dato.experiencia}} Exp.</p>
+            <p class="text-xl text-white rounded mx-6 py-1" [ngStyle]="{ 'background-color': getTextColor(dato.tipoPoke) }">type: {{dato.tipoPoke}}</p>
         </div>
     </div>
 </div>

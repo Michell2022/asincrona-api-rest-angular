@@ -1,16 +1,56 @@
-<!-- <div class="w-3/4 mx-auto">
-    <div class="grid grid-cols-2 gap-4 bg-white-500 border p-8">
-        <div>
-            <label class="form-label" for="">NOMBRE POKEMON: </label>
-            <input class="form-control" type="text" [(ngModel)]="obtenerInfo.name">
+<div class="pt-8 h-screen flex flex-col justify-center items-center bg-[url('assets/image/fondo-pokebola.jpeg')] bg-no-repeat bg-cover bg-center">
+    <h1 class="py-2 px-2 text-[28px] uppercase my-3 text-white duration-500 max-[768px]:text-[22px]" style="letter-spacing: 5px;">Detalles del Pokémon #{{pokemon.id}}</h1>
+    <div class="bg-white rounded h-[26rem] w-[20rem] relative overflow-hidden shadow-[0_0_10px_0px_rgba(0,0,0,0.2)]">
+        <!-- Fondo verde -->
+        <div class="absolute top-[-150px] left-[-80px] h-[20rem] w-[30rem] rounded-[50%]"
+            [ngStyle]="{ 'background-color':getTextColor(pokemon.typeOfPokemon1)}">
         </div>
-        <div>
-            <label class="form-label" for="">ID: </label>
-            <input class="form-control" type="text" [(ngModel)]="obtenerInfo.id">
-        </div>
-        <div>
-            <label class="form-label" for="">EXPERIENCIA: </label>
-            <input class="form-control" type="text" [(ngModel)]="obtenerInfo.experiencia">
-        </div>
+        <!-- Fondo verde -->
+
+        <form (ngSubmit)="guardarDatos()" #formulario="ngForm" class="relative z-10">
+            <!-- Contenido de la tarjeta -->
+            <div class="w-[100%]">
+                <div
+                    class="w-[75px] h-[35px] ml-auto mt-2 mr-2 bg-[#ffffff] rounded-4 flex items-center justify-center">
+                    <p class="font-bold text-[14px] mr-1">{{pokemon.hpName|uppercase}}</p>
+                    <p class="font-medium text-black text-[17px]">{{pokemon.hp}}</p>
+                </div>
+
+                <div>
+                    <img [src]="pokemon.image" alt="Imagen del Pokémon" class="m-auto mt-4 w-40 h-40 object-contain">
+                </div>
+
+                <div>
+                    <p class="text-center text-2xl font-bold my-3 capitalize">{{pokemon.name}}</p>
+                </div>
+
+                <div class="flex flex-row justify-around">
+                    <p class="w-[80px] text-white text-center text-md rounded rounded-5 py-1"
+                        [ngStyle]="{ 'background-color': getTextColor(pokemon.typeOfPokemon1) }">
+                        {{pokemon.typeOfPokemon1}}
+                    </p>
+                    <p class="w-[80px] text-white text-center text-md rounded rounded-5 py-1"
+                        *ngIf="pokemon.typeOfPokemon2"
+                        [ngStyle]="{ 'background-color': getTextColor(pokemon.typeOfPokemon2) }">
+                        {{pokemon.typeOfPokemon2}}
+                    </p>
+                </div>
+
+                <div class="flex justify-around text-center mt-4">
+                    <div>
+                        <p class="font-bold text-lg">{{pokemon.attack}}</p>
+                        <p class="capitalize">{{pokemon.attackName}}</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-lg">{{pokemon.defense}}</p>
+                        <p class="capitalize">{{pokemon.defenseName}}</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-lg">{{pokemon.speed}}</p>
+                        <p class="capitalize">{{pokemon.speedName}}</p>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-</div> -->
+</div>
