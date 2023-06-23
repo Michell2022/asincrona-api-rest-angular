@@ -8,17 +8,12 @@ import { PokemonesService } from 'src/app/services/pokemones.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  originalPokemons: any[] = [];
+  filteredPokemons: any[] = [];
+  searchTerm = '';
+  currentPage = 1;
+  noPokemonFound = false;
 
-    // Arreglo para almacenar los datos originales de los Pokémon
-    originalEntrada: any[] = [];
-
-    // Arreglo para almacenar los datos filtrados de los Pokémon
-    entrada: any[] = [];
-  
-    // Variable para almacenar el valor del buscador
-    buscador = '';
-
-      // Colores para los tipos de Pokémon
   static colors: Record<string, string> = {
     fire: '#e4604d',
     grass: '#9dd465',
@@ -38,75 +33,71 @@ export class HomeComponent implements OnInit {
     ghost: '#a499c9',
     ice: '#00a4e3',
   };
-  
-    constructor(private mydata: PokemonesService, private router: Router) { }
-  
-    ngOnInit(): void {
-      // Obtener los datos de los Pokémon al inicializar el componente
-      this.getPoketodo();
-    }
-  
-    getPoketodo() {
-      for (let i = 1; i <= 150; i++) {
-        this.mydata.getPokemones(i).subscribe(
-          res => {
-            const pokemonInfo = {
-              position: i,
-              id: res.id,
-              image: res.sprites.other.dream_world.front_default,
-              name: res.name,
-              experiencia: res.base_experience,
-              tipoPoke: res.types[0].type.name
-            };
-  
-            // Agregar los datos del Pokémon al arreglo originalEntrada
-            this.originalEntrada.push(pokemonInfo);
-  
-            // Ordenar el arreglo originalEntrada por el ID del Pokémon
-            this.originalEntrada.sort((a, b) => a.id - b.id);
-  
-            // Copiar los datos originales al arreglo entrada
-            this.entrada = [...this.originalEntrada];
-          },
-          err => {
-            console.error(err);
-          }
-        );
-      }
-    }
-  
-    search() {
-      if (this.buscador === '') {
-        // Si el buscador está vacío, mostrar todos los Pokémon
-        this.entrada = [...this.originalEntrada];
-      } else {
-        // Filtrar los Pokémon por el nombre ingresado en el buscador
-        this.entrada = this.originalEntrada.filter(dato =>
-          dato.name.toLowerCase().includes(this.buscador.toLowerCase())
-        );
-      }
-    }
-  
-    sendData() {
-      // Enviar los datos del Pokémon seleccionado a la página de detalles
-      const selectedPokemon = this.originalEntrada.find(dato =>
-        dato.name.toLowerCase() === this.buscador.toLowerCase()
-      );
-  
-      if (selectedPokemon) {
-        this.router.navigate(['detalles', selectedPokemon.id]);
-      }
-    }
-  
-    seleccionarPokemon(dato: any) {
-      // Al seleccionar un Pokémon, asignar su nombre al buscador y realizar la búsqueda automáticamente
-      this.buscador = dato.name;
-      this.search();
-    }
 
+  constructor(private mydata: PokemonesService, private router: Router) { }
 
-    getTextColor(tipoPoke: string): string {
-      return HomeComponent.colors[tipoPoke.toLowerCase()] || 'white';
-    }
-    
+  ngOnInit(): void {
+    this.getPokemons();
   }
+
+  getPokemons(): void {
+    for (let i = 1; i <= 150; i++) {
+      this.mydata.getPokemones(i).subscribe(
+        res => {
+          const pokemonInfo = {
+            position: i,
+            id: res.id,
+            image: res.sprites.other.dream_world.front_default,
+            name: res.name,
+            experiencia: res.base_experience,
+            tipoPoke: res.types[0].type.name
+          };
+
+          this.originalPokemons.push(pokemonInfo);
+          this.originalPokemons.sort((a, b) => a.id - b.id);
+          this.filterPokemons();
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    }
+  }
+
+  filterPokemons(): void {
+    if (this.searchTerm === '') {
+      this.filteredPokemons = [...this.originalPokemons];
+    } else {
+      this.filteredPokemons = this.originalPokemons.filter(pokemon =>
+        pokemon.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+      );
+    }
+    this.currentPage = 1;
+    this.noPokemonFound = this.filteredPokemons.length === 0 && this.searchTerm !== '';
+  }
+
+  search(): void {
+    this.filterPokemons();
+  }
+
+  sendData(): void {
+    const selectedPokemon = this.originalPokemons.find(pokemon =>
+      pokemon.name.toLowerCase() === this.searchTerm.toLowerCase()
+    );
+
+    if (selectedPokemon) {
+      this.router.navigate(['detalles', selectedPokemon.id]);
+    } else {
+      this.noPokemonFound = true;
+    }
+  }
+
+  seleccionarPokemon(pokemon: any): void {
+    this.searchTerm = pokemon.name;
+    this.filterPokemons();
+  }
+
+  getTextColor(tipoPoke: string): string {
+    return HomeComponent.colors[tipoPoke.toLowerCase()] || 'white';
+  }
+}

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -21,7 +22,8 @@ import { AppRoutingModule } from '../app-routing.module';
     HttpClientModule,
     FormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxPaginationModule
   ],
   exports: [
     HomeComponent,

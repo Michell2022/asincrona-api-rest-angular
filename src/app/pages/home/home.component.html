@@ -2,23 +2,33 @@
     <h1 class="text-center text-4xl my-6">POKEMONES</h1>
   
     <!-- Input para el buscador -->
-    <input type="text" [(ngModel)]="buscador" (input)="search()" class="border w-1/2 py-2 pl-2 mt-3 rounded mr-2">
+    <input type="text" [(ngModel)]="searchTerm" (input)="search()" class="border w-1/2 py-2 pl-2 mt-3 rounded mr-2">
   
     <!-- Botón para enviar los datos -->
-    <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="sendData()">Enviar datos</button>
-</div>
+    <button class="bg-blue-500 text-white py-2 px-4 rounded" (click)="sendData()" [disabled]="searchTerm === '' || noPokemonFound">Enviar datos</button>
+  </div>
   
-<div class="w-[90%] mx-auto mb-8 max-[1024px]:w-[95%] max-[768px]:w-[100%] overflow-hidden">
+  <div class="card-pokemon w-[90%] mx-auto mb-8 max-[1024px]:w-[95%] max-[768px]:w-[100%] overflow-hidden">
     <!-- Grid para mostrar los Pokémon -->
     <div class="grid grid-cols-4 gap-4 m-4 max-[1024px]:grid-cols-3 max-[768px]:grid-cols-2">
-        <!-- Iterar sobre los datos de entrada y mostrar cada Pokémon -->
-        <div *ngFor="let dato of entrada" class="text-center cursor-pointer border h-[22rem] py-3 rounded flex flex-col content-between hover:-translate-y-1 duration-300 hover:shadow-[0_0_10px_1px_rgba(0,0,0,0.1)] " (click)="seleccionarPokemon(dato)">
-            <p class="text-xl font-bold "># {{dato.id}}</p>
-            <img class="m-auto w-36 h-36" [src]="dato.image" alt="Imagen de Pokemon" >
-            <p class="text-2xl">{{dato.name}}</p>
-            <p class="text-orange-400 pt-1">Next level: {{dato.experiencia}} Exp.</p>
-            <p class="text-xl text-white rounded mx-6 py-1" [ngStyle]="{ 'background-color': getTextColor(dato.tipoPoke) }">type: {{dato.tipoPoke}}</p>
-        </div>
+      <!-- Iterar sobre los datos de entrada y mostrar cada Pokémon -->
+      <div *ngFor="let pokemon of filteredPokemons | paginate: { itemsPerPage: 30, currentPage: currentPage, totalItems: filteredPokemons.length }"
+        class="text-center cursor-pointer border h-[22rem] py-3 rounded flex flex-col content-between hover:-translate-y-1 duration-300 hover:shadow-[0_0_10px_1px_rgba(0,0,0,0.1)] "
+        (click)="seleccionarPokemon(pokemon)">
+        <p class="text-xl font-bold"># {{pokemon.id}}</p>
+        <img class="m-auto w-36 h-36" [src]="pokemon.image" alt="Imagen de Pokemon">
+        <p class="text-2xl">{{pokemon.name}}</p>
+        <p class="text-orange-400 pt-1">Next level: {{pokemon.experiencia}} Exp.</p>
+        <p class="text-xl text-white rounded mx-6 py-1"
+          [ngStyle]="{ 'background-color': getTextColor(pokemon.tipoPoke) }">type: {{pokemon.tipoPoke}}</p>
+      </div>
     </div>
-</div>
-<div class="actualizacion"></div>
+    <!-- Mostrar mensaje si no se encuentra ningún Pokémon -->
+    <div *ngIf="noPokemonFound" class="text-center mt-4">
+      <p>No se encontró ningún Pokémon con ese nombre.</p>
+    </div>
+  </div>
+  
+  <div class="text-center">
+    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+  </div>
